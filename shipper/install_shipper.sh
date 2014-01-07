@@ -3,8 +3,8 @@
 # Prepare Feihu Dir
 feihu=/data/apps/feihu
 feihu_install=/data/apps/feihu_install
-[ ! -e $feihu ] && sudo mkdir $feihu && sudo chown $(whoami):$(whoami) $feihu
-[ ! -e $feihu_install ] && sudo mkdir $feihu_install && sudo chown $(whoami):$(whoami) $feihu_install
+[ ! -e $feihu ] && sudo mkdir -p $feihu && sudo chown $(whoami):$(whoami) $feihu
+[ ! -e $feihu_install ] && sudo mkdir -p $feihu_install && sudo chown $(whoami):$(whoami) $feihu_install
 
 # Setup nodejs
 node_url=http://nodejs.org/dist/v0.10.24/node-v0.10.24-linux-x64.tar.gz
