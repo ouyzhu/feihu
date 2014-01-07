@@ -74,6 +74,9 @@ if [ ! -e $stop_script ] ; then
 		[ -n "\$statsd_pid" ] && echo kill \$statsd_pid && kill \$statsd_pid
 		logstash_pid=\$(func_get_pid "logstash")
 		[ -n "\$logstash_pid" ] && echo kill \$logstash_pid && kill \$logstash_pid
+
+		sleep 1
+		bash $(dirname $0)/shipper_status.sh
 	EOF
 fi
 if [ ! -e $start_script ] ; then
