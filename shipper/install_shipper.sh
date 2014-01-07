@@ -83,7 +83,7 @@ if [ ! -e $start_script ] ; then
 	cat > $start_script <<-EOF
 		#!/bin/bash
 
-		(( $(grep -c "$collector_host" /etc/hosts) < 1 )) && echo "ERROR: pls set host for $collector_host first!" && exit 1
+		(( \$(grep -c "$collector_host" /etc/hosts) < 1 )) && echo "ERROR: pls set host for $collector_host first!" && exit 1
 
 		function func_get_pid() {	ps -ef | grep "\$1" 2> /dev/null | grep -v grep | awk '{print \$2}' | uniq ;	}
 		[ -n "\$(func_get_pid "statsd")" -o -n "\$(func_get_pid "logstash")" ] && echo "ERROR: shipper still running, pls stop first!" && exit 1
