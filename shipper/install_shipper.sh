@@ -69,11 +69,11 @@ if [ ! -e $stop_script ] ; then
 
 		function func_get_pid() {	ps -ef | grep "\$1" 2> /dev/null | grep -v grep | awk '{print \$2}' | uniq ;	}
 
-		echo "INFO: stopping shipper components (statsd/logstash)
+		echo "INFO: stopping shipper components (statsd/logstash)"
 		statsd_pid=\$(func_get_pid "statsd")
-		[ -n "\$statsd_pid"] && echo kill \$statsd_pid && kill \$statsd_pid
+		[ -n "\$statsd_pid" ] && echo kill \$statsd_pid && kill \$statsd_pid
 		logstash_pid=\$(func_get_pid "logstash")
-		[ -n "\$logstash_pid"] && echo kill \$logstash_pid && kill \$logstash_pid
+		[ -n "\$logstash_pid" ] && echo kill \$logstash_pid && kill \$logstash_pid
 	EOF
 fi
 if [ ! -e $start_script ] ; then
@@ -85,7 +85,7 @@ if [ ! -e $start_script ] ; then
 		function func_get_pid() {	ps -ef | grep "\$1" 2> /dev/null | grep -v grep | awk '{print \$2}' | uniq ;	}
 		[ -n "\$(func_get_pid "statsd")" -o -n "\$(func_get_pid "logstash")" ] && echo "ERROR: shipper still running, pls stop first!" && exit 1
 
-		echo "INFO: starting shipper components (statsd/logstash)
+		echo "INFO: starting shipper components (statsd/logstash)"
 		echo nohup $node_target/bin/node $statsd_target/stats.js $statsd_target/statsd_shipper.conf >> $statsd_target/statsd_shipper.log 2>&1 &
 		nohup $node_target/bin/node $statsd_target/stats.js $statsd_target/statsd_shipper.conf >> $statsd_target/statsd_shipper.log 2>&1 &
 		echo nohup java -jar $logstash_target/$(basename $logstash_pkg) agent -f $logstash_target/logstash_shipper.conf -l $logstash_target/logstash_shipper.log >> $logstash_target/logstash_shipper.log 2>&1 &
