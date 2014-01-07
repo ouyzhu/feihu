@@ -41,8 +41,7 @@ logstash_url=https://download.elasticsearch.org/logstash/logstash/logstash-1.3.2
 logstash_pkg=$feihu_install/logstash-1.3.2-flatjar.jar
 logstash_target=$feihu/logstash/
 logstash_conf_url=https://raw.github.com/ouyzhu/feihu/master/shipper/logstash_shipper.conf
-logstash_conf_target=$statsd_target/logstash_shipper.conf
-if [ ! -e $statsd_target ] ; then
+logstash_conf_target=$logstash_target/logstash_shipper.conf
 if [ ! -e $logstash_target ] ; then
 	[ ! -e $logstash_pkg ] && wget $logstash_url -O $logstash_pkg
 	
@@ -98,3 +97,4 @@ if [ ! -e $status_script ] ; then
 		ps -ef | grep "logstash\|statsd" | grep -v grep
 	EOF
 fi
+
