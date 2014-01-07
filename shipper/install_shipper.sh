@@ -79,7 +79,9 @@ fi
 if [ ! -e $start_script ] ; then
 	cat > $start_script <<-EOF
 		#!/bin/bash
-		
+
+		(( $(grep -c "$collector_host" /etc/hosts) < 1 )) && echo "ERROR: pls set host for $collector_host first!" && exit 1
+
 		echo nohup $node_target/bin/node $statsd_target/stats.js $statsd_target/statsd_shipper.conf >> $statsd_target/statsd_shipper.log 2>&1 &
 		nohup $node_target/bin/node $statsd_target/stats.js $statsd_target/statsd_shipper.conf >> $statsd_target/statsd_shipper.log 2>&1 &
 
