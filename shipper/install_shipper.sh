@@ -48,7 +48,7 @@ if [ ! -e $logstash_target ] ; then
 	mkdir -p $logstash_target
 	cp $logstash_pkg $logstash_target
 
-	local_ip=$(/sbin/ifconfig | sed -n -e '/inet addr:\(127\|172\|192\|10\)/d;/inet addr/s/.*inet6* addr:\s*\([.:a-z0-9]*\).*/\1/p;s/\./_/' | head -1)
+	local_ip=$(/sbin/ifconfig | sed -n -e '/inet addr:\(127\|172\|192\|10\)/d;/inet addr/s/.*inet6* addr:\s*\([.:a-z0-9]*\).*/\1/;s/\./_/p' | head -1)
 	wget $logstash_conf_url -O $logstash_conf_target
 	sed -i -e "s/\"local_ip\"[, ]*\"[0-9\.]*\"/\"local_ip\", \"${local_ip:-IP_ADDRESS_UNKONW}\"/" $logstash_conf_target
 else
