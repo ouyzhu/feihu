@@ -71,9 +71,9 @@ if [ ! -e $stop_script ] ; then
 
 		echo "INFO: stopping shipper components (statsd/logstash)
 		statsd_pid=\$(func_get_pid "statsd")
-		[ -n "$statsd_pid"] && echo kill \$statsd_pid && kill \$statsd_pid
+		[ -n "\$statsd_pid"] && echo kill \$statsd_pid && kill \$statsd_pid
 		logstash_pid=\$(func_get_pid "logstash")
-		[ -n "$logstash_pid"] && echo kill \$logstash_pid && kill \$logstash_pid
+		[ -n "$\logstash_pid"] && echo kill \$logstash_pid && kill \$logstash_pid
 	EOF
 fi
 if [ ! -e $start_script ] ; then
