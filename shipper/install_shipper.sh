@@ -93,6 +93,9 @@ if [ ! -e $start_script ] ; then
 		nohup $node_target/bin/node $statsd_target/stats.js $statsd_target/statsd_shipper.conf >> $statsd_target/statsd_shipper.log 2>&1 &
 		echo nohup java -jar $logstash_target/$(basename $logstash_pkg) agent -f $logstash_target/logstash_shipper.conf -l $logstash_target/logstash_shipper.log >> $logstash_target/logstash_shipper.log 2>&1 &
 		nohup java -jar $logstash_target/$(basename $logstash_pkg) agent -f $logstash_target/logstash_shipper.conf -l $logstash_target/logstash_shipper.log >> $logstash_target/logstash_shipper.log 2>&1 &
+
+		sleep 1
+		bash $(dirname $0)/shipper_status.sh
 	EOF
 fi
 if [ ! -e $status_script ] ; then
