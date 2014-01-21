@@ -3,8 +3,8 @@
 # Prepare Feihu Dir
 feihu=/data/apps/feihu
 feihu_install=/data/apps/feihu_install
-[ ! -e $feihu ] && sudo mkdir $feihu && sudo chown ouyangzhu:ouyangzhu $feihu
-[ ! -e $feihu_install ] && sudo mkdir $feihu_install && sudo chown ouyangzhu:ouyangzhu $feihu_install
+[ ! -e $feihu ] && sudo mkdir $feihu && sudo chown `whoami`:`whoami` $feihu
+[ ! -e $feihu_install ] && sudo mkdir $feihu_install && sudo chown `whoami`:`whoami` $feihu_install
 
 function func_use_compiled_python() {
 	export PYTHON_HOME=$python_target
