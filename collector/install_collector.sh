@@ -179,6 +179,7 @@ graphite_target=$feihu/graphite
 if [ ! -e $graphite_target ] ; then
 	[ ! -e $graphite_src ] && cd $feihu_install && git clone $graphite_url $graphite_src
 
+	sudo apt-get install -y git
 	pip install carbon --install-option="--prefix=$graphite_target" --install-option="--install-lib=$graphite_target/lib"
 
 	cd $graphite_src
