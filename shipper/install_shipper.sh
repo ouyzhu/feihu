@@ -21,23 +21,42 @@ else
 	echo "INFO: $node_target already exist, skip"
 fi
 
-# Setup stats
-statsd_url=https://github.com/etsy/statsd
-statsd_src=$feihu_install/statsd_-GIT-
+# Setup stats (by zip)
+statsd_url=https://github.com/ktmud/statsd/archive/master.zip
+statsd_src=$feihu_install/statsd.zip
 statsd_target=$feihu/statsd
 statsd_conf_url=https://raw.github.com/ouyzhu/feihu/master/shipper/statsd_shipper.conf
 statsd_conf_target=$statsd_target/statsd_shipper.conf
 if [ ! -e $statsd_target ] ; then
-	[ ! -e $statsd_src ] && cd $feihu_install && git clone $statsd_url $statsd_src
+	[ ! -e $statsd_src ] && cd $feihu_install && wget $statsd_url -O $statsd_src
 
-	mkdir -p $statsd_target
-	cp -R $statsd_src/* $statsd_target
+	cd $feihu
+	unzip $statsd_src
+	mv statsd-master $statsd_target
 
 	wget $statsd_conf_url -O $statsd_conf_target
 	#cp conf_example/statsd_shipper.conf $statsd_target/statsd_shipper.conf
 else
 	echo "INFO: $statsd_target already exist, skip"
 fi
+
+# Setup stats (by git)
+#statsd_url=https://github.com/etsy/statsd
+#statsd_src=$feihu_install/statsd_-GIT-
+#statsd_target=$feihu/statsd
+#statsd_conf_url=https://raw.github.com/ouyzhu/feihu/master/shipper/statsd_shipper.conf
+#statsd_conf_target=$statsd_target/statsd_shipper.conf
+#if [ ! -e $statsd_target ] ; then
+#	[ ! -e $statsd_src ] && cd $feihu_install && git clone $statsd_url $statsd_src
+#
+#	mkdir -p $statsd_target
+#	cp -R $statsd_src/* $statsd_target
+#
+#	wget $statsd_conf_url -O $statsd_conf_target
+#	#cp conf_example/statsd_shipper.conf $statsd_target/statsd_shipper.conf
+#else
+#	echo "INFO: $statsd_target already exist, skip"
+#fi
 
 # Setup logstash
 logstash_url=https://download.elasticsearch.org/logstash/logstash/logstash-1.3.2-flatjar.jar
@@ -94,8 +113,8 @@ if [ ! -e $start_script ] ; then
 		echo "INFO: starting shipper components (statsd/logstash)"
 		echo nohup $node_target/bin/node $statsd_target/stats.js $statsd_target/statsd_shipper.conf >> $statsd_target/statsd_shipper.log 2>&1 &
 		nohup $node_target/bin/node $statsd_target/stats.js $statsd_target/statsd_shipper.conf >> $statsd_target/statsd_shipper.log 2>&1 &
-		echo nohup java -jar $logstash_target/$(basename $logstash_pkg) agent -f $logstash_target/logstash_shipper.conf -l $logstash_target/logstash_shipper.log >> $logstash_target/logstash_shipper.log 2>&1 &
-		nohup java -jar $logstash_target/$(basename $logstash_pkg) agent -f $logstash_target/logstash_shipper.conf -l $logstash_target/logstash_shipper.log >> $logstash_target/logstash_shipper.log 2>&1 &
+		echo PATH=\$PATH:/usr/local nohup java -jar $logstash_target/$(basename $logstash_pkg) agent -f $logstash_target/logstash_shipper.conf -l $logstash_target/logstash_shipper.log >> $logstash_target/logstash_shipper.log 2>&1 &
+		PATH=\$PATH:/usr/local nohup java -jar $logstash_target/$(basename $logstash_pkg) agent -f $logstash_target/logstash_shipper.conf -l $logstash_target/logstash_shipper.log >> $logstash_target/logstash_shipper.log 2>&1 &
 
 		sleep 1
 		bash $(dirname $0)/shipper_status.sh
